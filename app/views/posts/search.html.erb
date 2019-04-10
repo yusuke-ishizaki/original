@@ -1,0 +1,6 @@
+<i class="icon-movie color-gray-light">検索結果</i>
+<% @posts.each do |post| %>
+    <td><%= post.title %></td>
+    <td><%= post.text %></td>
+    <td><%= post.image %></td>
+<% end %>

@@ -23,7 +23,10 @@ class PostsController < ApplicationController
   def edit
   end
 
-  
+  def search
+    @posts = Post.where('title LIKE(?)', "%#{params[:title]}%").limit(5)
+  end
+
   # POST /posts
   # POST /posts.json
   def create

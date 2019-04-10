@@ -1,6 +1,9 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Posts</h1>
+<i class="icon-movie color-gray-light">投稿を検索</i>
+<%= form_tag('/posts/search', method: :get) do %>
+  <input class="search__query" name="keyword" placeholder="投稿を検索" type="text" value=""><button class="btn-search" title="検索" type="submit"><i class="icon-search"></i></button></input>
+<% end %>
 
 <table>
   <thead>

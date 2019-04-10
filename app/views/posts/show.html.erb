@@ -15,14 +15,16 @@
   <%= @post.image %>
 </p>
 
+
 <div class="container"> 
-<% if current_user %>
-  <%= form_tag("/posts/#{@post.id}/comments", method: :post) do %>
-    <textarea cols="30" name="text" placeholder="コメントする" rows="2"></textarea>
-    <input type="submit" value="SENT">
+  <% unless current_user.id ==  @post.user_id%>
+    <%= form_tag("/posts/#{@post.id}/comments", method: :post) do %>
+      <textarea cols="30" name="text" placeholder="コメントする" rows="2"></textarea>
+      <input type="submit" value="SENT">
+    <% end %>
   <% end %>
-<% end %>
-</div>
+  </div>
+
 
 <div class="comments">   
 <h4>＜コメント一覧＞</h4>

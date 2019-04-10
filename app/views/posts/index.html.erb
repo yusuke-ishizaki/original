@@ -27,3 +27,17 @@
 <% if user_signed_in? %>
    <%= link_to 'New Post', new_post_path %>
 <% end %>
+
+<div class="tyumoku_ranking">
+<h>注目ランキング</h>
+<% @ranking.each.with_index(1) do |post, i| %>
+  <p><%= i %>位</p>
+  <%= post.title %>
+<% end %>
+
+<div class="rate_ranking">
+<h>評価ランキング</h>
+<% @rank.each.with_index(1) do |post, i| %>
+  <p><%= i %>位</p>
+  <%= post.title %>
+<% end %>

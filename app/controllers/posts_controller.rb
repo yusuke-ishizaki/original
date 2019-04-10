@@ -5,6 +5,10 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     @posts = Post.all.order("created_at DESC").page(params[:page]).per(5)
+    post_ids = Comment.group(:post_id).order('count_post_id DESC').limit(3).count(:post_id).keys
+    @ranking = post_ids.map { |id| Post.find(id) }
+    post_id = Comment.group(:post_id).order('rate DESC').limit(3).count(:rate).keys
+    @rank = post_id.map { |id| Post.find(id) }
   end
 
   # GET /posts/1

@@ -18,8 +18,10 @@
 
 <div class="container"> 
   <% unless current_user.id ==  @post.user_id%>
-    <%= form_tag("/posts/#{@post.id}/comments", method: :post) do %>
+    <%= form_with url: "/posts/#{@post.id}/comments", method: :post do |f| %> 
       <textarea cols="30" name="text" placeholder="コメントする" rows="2"></textarea>
+      <%= f.label :評価　%>
+      <%= f.number_field :rate, placeholder: '評価', value: 1, max: 10, min: 1 %>
       <input type="submit" value="SENT">
     <% end %>
   <% end %>

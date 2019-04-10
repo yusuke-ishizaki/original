@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  #ポート番号３３３３
   devise_for :users
   root 'posts#index'
   resources :posts

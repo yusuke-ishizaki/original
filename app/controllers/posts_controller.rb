@@ -10,6 +10,8 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
+    @post = Post.find(params[:id])
+    @comments = @post.comments.includes(:user)
   end
 
   # GET /posts/new
@@ -21,6 +23,7 @@ class PostsController < ApplicationController
   def edit
   end
 
+  
   # POST /posts
   # POST /posts.json
   def create

@@ -15,6 +15,28 @@
   <%= @post.image %>
 </p>
 
+<div class="container"> 
+<% if current_user %>
+  <%= form_tag("/posts/#{@post.id}/comments", method: :post) do %>
+    <textarea cols="30" name="text" placeholder="コメントする" rows="2"></textarea>
+    <input type="submit" value="SENT">
+  <% end %>
+<% end %>
+</div>
+
+<div class="comments">   
+<h4>＜コメント一覧＞</h4>
+<% if @comments %>
+  <% @comments.each do |comment| %>
+    <p>
+      <strong><%= link_to comment.user.name, "/users/#{comment.user_id}" %>：</strong>
+      <%= comment.text %>
+    </p>
+  <% end %>
+<% end %>
+</div>
+
+
 <% if user_signed_in? && current_user.id == @post.user_id %>
 <%= link_to 'Edit', edit_post_path(@post) %>
 <% end %>

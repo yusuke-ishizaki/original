@@ -14,6 +14,7 @@
   <h1 class="grid-6"><a href="/">POSTTER</a></h1>
   <% if user_signed_in? %>
   <div class="user_nav grid-6">
+    <a href="/users/<%= current_user.id %>">マイページ</a>
     <%= link_to "ログアウト", destroy_user_session_path, class: 'post', method: :delete %>
   </div>
 <% else %>

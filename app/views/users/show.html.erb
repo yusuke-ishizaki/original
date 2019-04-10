@@ -1,0 +1,12 @@
+<div class="contents row" >
+
+<% @posts.each do |post| %>
+  <div class="content_post" >
+  <span class="name"><%= post.title %></span>
+  <td><%= simple_format(post.text) %></td>
+  <td><%= post.image %></td>
+  </div>
+<% end %>
+<%= paginate(@posts) %>
+</div>
+<%= link_to 'Back', posts_path %>

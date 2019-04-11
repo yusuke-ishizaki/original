@@ -3,11 +3,13 @@
 <li><%= post.image %></li>
 <li><%= post.title %></li>
 <li><%= post.text %></li>
-<li><%= link_to 'Show', post %></li>
+<%= evil_icons_sprite %>
+<li><%= evil_icon 'ei-plus' %><%= link_to 'Show', post %></li>
 
 <% if user_signed_in? && current_user.id == post.user_id %>
-    <li><%= link_to 'Edit', edit_post_path(post) %></li>
-    <li><%= link_to 'Destroy', post, method: :delete, data: { confirm: '本当に削除しますか?' } %></li>
+　  <%= evil_icons_sprite %>
+    <li><%= evil_icon 'ei-pencil' %><%= link_to 'Edit', edit_post_path(post) %></li>
+    <li><%= evil_icon 'ei-trash' %><%= link_to 'Destroy', post, method: :delete, data: { confirm: '本当に削除しますか?' } %></li>
 <% end %>
 </ul>
 </div>

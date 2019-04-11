@@ -16,6 +16,7 @@
 </p>
 
 
+
 <div class="container"> 
   <% unless current_user.id ==  @post.user_id%>
     <%= form_with url: "/posts/#{@post.id}/comments", method: :post do |f| %> 

@@ -100,6 +100,7 @@ GEM
       responders
       warden (~> 1.2.3)
     erubi (1.8.0)
+    evil_icons (1.10.1)
     execjs (2.7.0)
     ffi (1.10.0)
     font-awesome-rails (4.7.0.4)
@@ -247,6 +248,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   compass-rails (= 3.1.0)
   devise
+  evil_icons
   font-awesome-rails
   jbuilder (~> 2.5)
   kaminari

@@ -2,9 +2,18 @@ class TagsController < ApplicationController
     def create
         @tag = Tag.create(name: params[:name])
     end
+
     def new
         @tag = Tag.new
     end
+
+    def edit
+    end
+    
+    def update
+        @tag = Tag.find(params[:id])
+    end    
+
     def index
         @tags = []
         Tag.order("name ASC").each do |tag|
@@ -32,4 +41,10 @@ class TagsController < ApplicationController
           end
         end
       end
+
+      private
+      def tag_params
+        params.require(:tag).permit(:name, :post_id)
+      end
+
 end

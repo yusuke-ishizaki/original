@@ -1,6 +1,7 @@
-<h>タグ該当POST一覧</h>
+<h>タグ一覧</h>
+<%= evil_icons_sprite %> 
 <% @tags.each do |tag| %>
-    <%= tag.name %>
+　<%= evil_icon 'ei-tag' %><%= tag.name %>
 <% end %>
 
 <%= link_to 'Back', posts_path %>

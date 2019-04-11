@@ -15,15 +15,18 @@ class TagsController < ApplicationController
     end
   
     def show
-      @tag = Tag.find(params[:id])
+      @tags = Tag.find(params[:id])
       @posts = []
       Post.all.each do |post|
-        tweet.tags.each do |tag|
-          if tag.name == @tag.name
-            @posts << tweet
+        post.tags.each do |tag|
+          if tag.name == @tags.name
+            @posts << post
             break
           end
         end
       end
     end
+
+    def create
+        @tags = Tag.create(params[:name])
   end

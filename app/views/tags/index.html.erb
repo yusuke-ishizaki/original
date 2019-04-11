@@ -1,4 +1,6 @@
 <h>タグ該当POST一覧</h>
 <% @tags.each do |tag| %>
-    <%= tag %>
+    <%= tag.name %>
 <% end %>
+
+<%= link_to 'Back', posts_path %>

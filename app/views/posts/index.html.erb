@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p>
 
+<div class="top_contents">
 <i class="icon-movie color-gray-light">投稿を検索</i>
 <%= form_tag('/posts/search', method: :get) do %>
   <input class="search__query" name="keyword" placeholder="投稿を検索" type="text" value=""><button class="btn-search" title="検索" type="submit"><i class="icon-search"></i></button></input>
@@ -27,13 +28,16 @@
 <% if user_signed_in? %>
    <%= link_to 'New Post', new_post_path %>
 <% end %>
+</div>
 
+<div class="bottom_contents">
 <div class="tyumoku_ranking">
 <h>注目ランキング</h>
 <% @ranking.each.with_index(1) do |post, i| %>
   <p><%= i %>位</p>
   <%= post.title %>
 <% end %>
+</div>
 
 <div class="rate_ranking">
 <h>評価ランキング</h>
@@ -41,6 +45,8 @@
   <p><%= i %>位</p>
   <%= post.title %>
 <% end %>
+</div>
+</div>
 
 <%= evil_icons_sprite %>
 <%= evil_icon 'ei-search' %>

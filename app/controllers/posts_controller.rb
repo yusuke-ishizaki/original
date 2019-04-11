@@ -31,6 +31,15 @@ class PostsController < ApplicationController
     @posts = Post.where('title LIKE(?)', "%#{params[:title]}%").limit(5)
   end
 
+  def pay
+    Payjp.api_key = 'sk_test_6a8bae205c925df3cbd61c36'
+    charge = Payjp::Charge.create(
+    :amount => 3500,
+    :card => params['payjp-token'],
+    :currency => 'jpy',
+    )
+  end
+
   # POST /posts
   # POST /posts.json
   def create

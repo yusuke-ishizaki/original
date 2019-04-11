@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   #ポート番号３３３３
   devise_for :users
   root 'posts#index'
+  post '/posts/pay' => 'posts#pay'  
   resources :posts do
     resources :comments, only: [:create]
     resources :tags

@@ -4,7 +4,7 @@ class TagsController < ApplicationController
     end
 
     def new
-        @tag = Tag.new
+        @tag = Tag.new(tag_params)
     end
 
     def edit

@@ -9,4 +9,8 @@
 <% end %>
 <%= paginate(@posts) %>
 </div>
+
+<% @similarity.each do |post| %>
+     <%= post %>
+<% end %>
 <%= link_to 'Back', posts_path %>

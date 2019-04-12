@@ -25,6 +25,26 @@
     font-family: 'Varela Round', sans-serif;
  }
 
+ a {
+     background: none!important;
+     text-decoration: none;
+     display: block;
+ }
+
+ .clearfix::after{
+    content: "";
+    display: block;
+    clear: both;
+  }
+
+  ul {
+    padding-inline-start: 0!important;
+  }
+
+  li {
+      list-style: none;
+  }
+
  .header{
     position: fixed;
     height: 70px;
@@ -41,6 +61,24 @@
   .user_nav grid-6{
       float: right;
   }
+
+  .user_nav a{
+      color: yellowgreen;
+  }
+
+  .user_nav a:hover{
+    color: yellow;
+}
+
+.pagination {
+    display: flex;
+}
+
+.pagination span{
+    padding: 5px;
+
+}
+
   
   .footer{
     height: 45px;
@@ -52,9 +90,8 @@
   
   .contents-1 {
     background-color:rgb(209, 212, 205);
-    height: 800px;
+    height: 960px;
     width: 960px;
-    padding-top: 70px;
     margin: 0 auto;
   }
 
@@ -64,6 +101,14 @@
       line-height: 2.5em;
       /* font-family: 'Noto Sans JP', sans-serif; */
   }
+  .toptitle > a > span {
+    color: yellowgreen;
+  }
+
+  .toptitle > a > span:hover {
+    color: yellow;
+  }
+
 
   .user_nav{
       width: 15%;
@@ -77,4 +122,35 @@
   
   .top_contents{
       width: 100%;
+      height: 380px;
+      margin: 70px 0 0;
+      display: table;
   }
+
+  .contributor{
+      display: table-cell;
+      margin: 0 9%;
+  }
+
+  .bottom_contents{
+      bottom: 0;
+      width: 100%;
+      height:350px;
+      display:flex;
+  }
+
+  .tyumoku_ranking{
+      width: 50%;
+  }
+
+  .rate_ranking{
+    width: 50%;
+  }
+
+  .template{
+      display: flexbox;
+  }
+
+.tag{
+    bottom: 0;
+}

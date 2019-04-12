@@ -1,38 +1,44 @@
 <p id="notice"><%= notice %></p>
 
+
 <div class="top_contents">
-<i class="icon-movie color-gray-light">投稿を検索</i>
+<div class="kensaku">
+<p class="icon-movie color-gray-light">投稿を検索</p>
 <%= form_tag('/posts/search', method: :get) do %>
   <input class="search__query" name="keyword" placeholder="投稿を検索" type="text" value=""><button class="btn-search" title="検索" type="submit"><i class="icon-search"></i></button></input>
 <% end %>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Text</th>
-      <th>Image</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
 
-  <tbody>
+
+  <div class="template">
+  <div class="contributor">
+    <ul>
+      <li>Title</li>
+      <li>Text</li>
+      <li>Image</li>
+      <li colspan="3"></li>
+    </ul>
+  </div>
     <% @posts.each do |post| %>
       <%= render partial: "post", locals: { post: post } %>
     <% end %>
-  </tbody>
-</table>
+  </div>
 
-<br>
-<%= paginate(@posts) %>
-<% if user_signed_in? %>
-   <%= link_to 'New Post', new_post_path %>
-<% end %>
+
+    <div>
+        <%= paginate(@posts) %>
+          <% if user_signed_in? %>
+            <%= link_to 'New Post', new_post_path %>
+        <% end %>
+    </div>
 </div>
 
 <div class="bottom_contents">
-<div class="tyumoku_ranking">
-<h>注目ランキング</h>
+<div class="tyumoku_ranking clearfix">
+
+<%= evil_icons_sprite %>
+<%= evil_icon 'ei-eye' %><h>注目ランキング</h>
 <% @ranking.each.with_index(1) do |post, i| %>
   <p><%= i %>位</p>
   <%= post.title %>
@@ -40,7 +46,8 @@
 </div>
 
 <div class="rate_ranking">
-<h>評価ランキング</h>
+<%= evil_icons_sprite %>
+<%= evil_icon 'ei-heart' %><h>評価ランキング</h>
 <% @rank.each.with_index(1) do |post, i| %>
   <p><%= i %>位</p>
   <%= post.title %>
@@ -48,5 +55,8 @@
 </div>
 </div>
 
-<a href="/posts/:post_id/tags">Tag Show</a>
-<a href="/posts/:post_id/tags/:id">Tag Index</a>
+<div class="tag">
+<%= evil_icons_sprite %>
+<%= evil_icon 'ei-navicon' %><a href="/posts/:post_id/tags">Tag Show</a>
+<%= evil_icon 'ei-minus' %><a href="/posts/:post_id/tags/:id">Tag Index</a>
+</div>

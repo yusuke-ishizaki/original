@@ -3,28 +3,39 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-  <%= f.label :name %> <em>(6 characters maximum)</em><br />
+  <div class="field"><%= evil_icons_sprite %>
+  <%= evil_icon 'ei-sc-odnoklassniki' %><%= f.label :name %> <em>(6 characters maximum)</em><br />
   <%= f.text_field :name, autofocus: true, maxlength: "6" %>
 　</div>
 
-  <div class="field">
-    <%= f.label :email %><br />
+  <div class="field"><%= evil_icons_sprite %>
+    <%= evil_icon 'ei-envelope' %><%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
   </div>
 
-  <div class="field">
-    <%= f.label :password %>
+  <div class="field"><%= evil_icons_sprite %>
+    <%= evil_icon '' %><%= f.label :password %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
     <%= f.password_field :password, autocomplete: "new-password" %>
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
+  <div class="field"><%= evil_icons_sprite %>
+    <%= evil_icon 'ei-unlock' %><%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
+
+  <div class="field"><%= evil_icons_sprite %>
+    <%= evil_icon 'ei-sc-twitter' %><%= f.label :twitter %><br />
+    <%= f.text_field :twitter, autofocus: true, autocomplete: "twitter" %>
+  </div>
+
+  <div class="field"><%= evil_icons_sprite %>
+    <%= evil_icon 'ei-like' %><%= f.label :facebook %><br />
+    <%= f.text_field :facebook, autofocus: true, autocomplete: "facebook" %>
+  </div>
+
 
   <div class="actions">
     <%= f.submit "Sign up" %>

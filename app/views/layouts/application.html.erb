@@ -15,13 +15,14 @@
   <h1 class="toptitle"><a href="/"><span>POSTTER</span></a></h1>
   <% if user_signed_in? %>
   <div class="user_nav">
-    <a href="/users/<%= current_user.id %>">マイページ</a>
-    <%= link_to "ログアウト", destroy_user_session_path, class: 'post', method: :delete %>
+  <%= evil_icons_sprite %>
+    <%= evil_icon 'ei-user' %><a href="/users/<%= current_user.id %>">マイページ</a>
+    <%= evil_icon 'ei-close-o' %><%= link_to "ログアウト", destroy_user_session_path, class: 'post', method: :delete %>
   </div>
 <% else %>
   <div class="user_nav">
-    <%= link_to "ログイン", new_user_session_path, class: 'post' %>
-    <%= link_to "新規登録", new_user_registration_path, class: 'post' %>
+    <%= evil_icon 'ei-plus' %><%= link_to "ログイン", new_user_session_path, class: 'post' %>
+    <%= evil_icon 'ei-trophy' %><%= link_to "新規登録", new_user_registration_path, class: 'post' %>
   </div>
 <% end %>
 </header>

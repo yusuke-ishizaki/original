@@ -1,7 +1,9 @@
+<div class="tag_index">
 <h>タグ一覧</h>
 <%= evil_icons_sprite %> 
 <% @tags.each do |tag| %>
 　<%= evil_icon 'ei-tag' %><%= tag.name %>
 <% end %>
+</div>
 
 <%= link_to 'Back', posts_path %>

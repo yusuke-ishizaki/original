@@ -1,140 +1,88 @@
-module Similarity
 
-    #data1,data2に配列かハッシュを渡すと類似度が返る
-    def calculate_similarity(data1,data2,type="cosine")
-      if data1.class==Array
-        calculate_similarity_with_array(data1,data2,type)
-      elsif data1.class==Hash
-        calculate_similarity_with_hash(data1,data2,type)
-      end
+class Similarity
+  def sim_distance(prefs, person1, person2)
+      shared_items_a = shared_items_a(prefs, person1, person2)
+      return 0 if shared_items_a.size == 0
+      sum_of_squares = shared_items_a.inject(0) {|result, item|
+        result + (prefs[person1][item]-prefs[person2][item])**2
+      }
+      return 1/(1+sum_of_squares)
     end
-  
-    #vector1とvector2に同じ長さの数列(要素が数字の配列)を渡すと類似度が返る
-    #第三引数のtypeに"cosine","jaccard","dice"のいずれかを指定する(default="cosine")
-    def calculate_similarity_with_array(vector1,vector2,type="cosine")
-      if type=="cosine"   
-        #コサイン類似度を計算
-        similarity = cosine_similarity(vector1,vector2)
-      elsif type=="jaccard"
-        #Jaccard係数を計算
-        similarity = jaccard_similarity(vector1,vector2)
-      elsif type=="dice"
-        #Dice係数を計算
-        similarity = dice_similarity(vector1,vector2)
-      end
-      return similarity #類似度を返す
+    
+    def sim_pearson(prefs, person1, person2)
+      shared_items_a = shared_items_a(prefs, person1, person2)
+    
+      n = shared_items_a.size
+      return 0 if n == 0
+    
+      sum1 = shared_items_a.inject(0) {|result,si|
+        result + prefs[person1][si]
+      }
+      sum2 = shared_items_a.inject(0) {|result,si|
+        result + prefs[person2][si]
+      }
+      sum1_sq = shared_items_a.inject(0) {|result,si|
+        result + prefs[person1][si]**2
+      }
+      sum2_sq = shared_items_a.inject(0) {|result,si|
+        result + prefs[person2][si]**2
+      }
+      sum_products = shared_items_a.inject(0) {|result,si|
+        result + prefs[person1][si]*prefs[person2][si]
+      }
+    
+      num = sum_products - (sum1*sum2/n)
+      den = Math.sqrt((sum1_sq - sum1**2/n)*(sum2_sq - sum2**2/n))
+      return 0 if den == 0
+      return num/den
     end
-  
-    #hash1とhash2に比較したいhashを渡すと類似度が返る
-    #二つのhashは異なる長さ、keyを持っていてもkeyを統合して長さが調整される
-    def calculate_similarity_with_hash(hash1,hash2,type="cosine")
-      hash3 = hash1.merge(hash2)
-      hash3.each do |key,value|
-        hash1[key] = 0 if hash1[key].blank?
-        hash2[key] = 0 if hash2[key].blank?
-      end
-      vector1 = hash1.sort.map{|key,val|val}
-      vector2 = hash2.sort.map{|key,val|val}
-      if type=="cosine"   
-        #コサイン類似度を計算
-        similarity = cosine_similarity(vector1,vector2)
-      elsif type=="jaccard"
-        #Jaccard係数を計算
-        similarity = jaccard_similarity(vector1,vector2)
-      elsif type=="dice"
-        #Dice係数を計算
-        similarity = dice_similarity(vector1,vector2)
-      end
-      return similarity #類似度を返す
-    end
-  
-    #コサイン類似度[START]
-    def cosine_similarity(vector1, vector2)
-      dp = dot_product(vector1, vector2)
-      nm = normalize(vector1) * normalize(vector2)
-      dp / nm
-    end
-  
-    def dot_product(vector1, vector2)
-      sum = 0.0
-      vector1.each_with_index{ |val, i| sum += val*vector2[i] }
-      sum
-    end
-  
-    def normalize(vector)
-      Math.sqrt(vector.inject(0.0){ |m,o| m += o**2 })
-    end
-    #コサイン類似度[END]
-  
-    #Jaccard係数[START]
-    def jaccard_similarity(vector1,vector2)
-      numerator = 0
-      denominator = 0
-  
-      vector1.each_with_index do |val1,index|
-        val2 = vector2[index]
-        numerator += [val1,val2].min
-        denominator += [val1,val2].max
-      end
-      return denominator != 0 ? numerator.to_f / denominator : 0
-    end
-    #Jaccard係数[END]
-  
-    #Dice係数[START]
-    def dice_similarity(vector1,vector2)
-      numerator = 0
-      denominator = 0
-      vector1.each_with_index do |val1,index|
-        val2 = vector2[index]
-        numerator += [val1,val2].min
-        denominator += val1+val2
-      end
-      return denominator != 0 ? 2 * numerator.to_f / denominator : 0
-    end
-    #Dice係数[END]
-  end
-
-  def calculate_similarity(class_name, columns={}, type="cosine")
-
-    similarity_matrix = []
-
-    class_name.find_each do |obj1|
-
-      similarity_matrix_child = []
-      obj1_ary = []
-
-      columns.each do |column|
-        begin
-          obj1_ary << eval("obj1.#{column[0].to_s}").to_i * column[1].to_i
-        rescue
-          obj1_ary << 0
+    
+    def self.top_matches(prefs, person, n=5, similarity=:sim_pearson)
+      scores = Array.new
+      prefs.each do |key,value|
+        if key != person
+          scores << [__send__(similarity,prefs,person,key),key]
         end
       end
-
-      class_name.find_each do |obj2|
-        obj2_ary = []
-        columns.each do |column|
-          begin
-            obj2_ary << eval("obj2.#{column[0].to_s}").to_i * column[1].to_i
-          rescue
-            obj2_ary << 0
+      return scores.sort.reverse[0,n]
+    end
+    
+    def get_recommendations(prefs, person, similarity=:sim_pearson)
+      totals_h = Hash.new(0)
+      sim_sums_h = Hash.new(0)
+    
+      prefs.each do |other,val|
+        next if other == person
+        sim = __send__(similarity,prefs,person,other)
+        next if sim <= 0
+        prefs[other].each do |item, val|
+          if !prefs[person].keys.include?(item) || prefs[person][item] == 0
+            totals_h[item] += prefs[other][item]*sim
+            sim_sums_h[item] += sim
           end
         end
-
-        if type=="cosine"
-          #obj1とobj2のコサイン類似度を配列に入れる
-          similarity_matrix_child << cosine_similarity(obj1_ary,obj2_ary)
-        elsif type=="jaccard"
-          #obj1とobj2のJaccard係数を配列に入れる
-          similarity_matrix_child << jaccard_similarity(obj1_ary,obj2_ary)
-
-        elsif type=="dice"
-          #obj1とobj2のDice係数を配列に入れる
-          similarity_matrix_child << dice_similarity(obj1_ary,obj2_ary)
+      end
+    
+      rankings = Array.new
+      totals_h.each do |item,total|
+        rankings << [total/sim_sums_h[item], item]
+      end
+      return rankings.sort.reverse
+    end
+    
+    def transform_prefs(prefs)
+      result = Hash.new
+      prefs.each do |person,score_h|
+        score_h.each do |item,score|
+          result[item] ||= Hash.new
+          result[item][person] = score
         end
       end
-      similarity_matrix << similarity_matrix_child
+      result
     end
-    return similarity_matrix #最終的に行列の形で類似度を返す
+    
+    def shared_items_a(prefs, person1, person2)
+      prefs[person1].keys & prefs[person2].keys
+    end
   end
-end
+
